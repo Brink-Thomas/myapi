@@ -1,0 +1,24 @@
+replicaCount: 2
+
+image:
+  repository: myapi
+  tag: "0.1"
+  pullPolicy: IfNotPresent # image is imported into k3d, never pulled
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8080
+  nodePort: 30003
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+# Prometheus scraping (kube-prometheus-stack discovers ServiceMonitors in all namespaces)
+serviceMonitor:
+  enabled: true
+  interval: 15s
